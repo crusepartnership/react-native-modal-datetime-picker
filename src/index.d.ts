@@ -204,6 +204,11 @@ interface DateTimePickerProps {
      */
     onCancel(date: Date): void
 
+    /**
+     * Handler called when the user presses the clear button
+     * Passes the current selected date
+     */
+    onClear(date: Date): void
 
     /**
      * Called when the underlying modal finishes its' closing animation

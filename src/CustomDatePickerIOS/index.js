@@ -7,6 +7,7 @@ import styles from "./index.style";
 
 export default class CustomDatePickerIOS extends React.PureComponent {
   static propTypes = {
+    clearTextIOS: PropTypes.string,
     cancelTextIOS: PropTypes.string,
     confirmTextIOS: PropTypes.string,
     customCancelButtonIOS: PropTypes.node,
@@ -36,6 +37,7 @@ export default class CustomDatePickerIOS extends React.PureComponent {
   static defaultProps = {
     neverDisableConfirmIOS: false,
     hideTitleContainerIOS: false,
+    clearTextIOS: "Clear",
     cancelTextIOS: "Cancel",
     confirmTextIOS: "Confirm",
     date: new Date(),
@@ -60,6 +62,11 @@ export default class CustomDatePickerIOS extends React.PureComponent {
       });
     }
   }
+
+  _handleClear = () => {
+    this.confirmed = false;
+    this.props.onClear();
+  };
 
   _handleCancel = () => {
     this.confirmed = false;
@@ -110,6 +117,8 @@ export default class CustomDatePickerIOS extends React.PureComponent {
       titleIOS,
       confirmTextIOS,
       cancelTextIOS,
+      clearTextIOS,
+      customClearButtonIOS,
       customCancelButtonIOS,
       customConfirmButtonIOS,
       neverDisableConfirmIOS,
@@ -162,6 +171,11 @@ export default class CustomDatePickerIOS extends React.PureComponent {
     const cancelButton = (
       <Text style={[styles.cancelText, cancelTextStyle]}>{cancelTextIOS}</Text>
     );
+
+    const clearButton = (
+      <Text style={[styles.confirmText, confirmTextStyle]}>{clearTextIOS}</Text>
+    );
+
     const DatePickerComponent = customDatePickerIOS || DatePickerIOS;
 
     return (
@@ -193,16 +207,29 @@ export default class CustomDatePickerIOS extends React.PureComponent {
               onDateChange={this._handleDateChange}
             />
           </View>
-          <TouchableHighlight
-            style={styles.confirmButton}
-            underlayColor="#ebebeb"
-            onPress={this._handleConfirm}
-            disabled={
-              !neverDisableConfirmIOS && this.state.userIsInteractingWithPicker
-            }
-          >
-            {confirmButton}
-          </TouchableHighlight>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{ width: '50%', height:50}}>
+              <TouchableHighlight
+                style={styles.confirmButton}
+                underlayColor="#ebebeb"
+                onPress={this._handleClear}
+              >
+              {clearButton}
+            </TouchableHighlight>
+            </View>
+            <View style={{width: '50%', height: 50}} >
+              <TouchableHighlight
+                style={styles.confirmButton}
+                underlayColor="#ebebeb"
+                onPress={this._handleConfirm}
+                disabled={
+                  !neverDisableConfirmIOS && this.state.userIsInteractingWithPicker
+                }
+              >
+                {confirmButton}
+              </TouchableHighlight>
+            </View>
+          </View>
         </View>
 
         <TouchableHighlight
