@@ -26,11 +26,14 @@ This library is available on npm, install it with `npm install --save react-nati
 ## Extra Setup
 
 For Android,
+
+```
 Update MainApplication.java inside android/app/...
 +import com.customdatepicker.modules.ClearableDateTimePickerPackage;
 
 Add following line inside, getPackages()
 +new ClearableDateTimePickerPackage()
+```
 
 ## Usage
 
